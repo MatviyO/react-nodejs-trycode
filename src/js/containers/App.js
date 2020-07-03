@@ -1,9 +1,10 @@
 import React from 'react';
-import { Header } from "semantic-ui-react";
+import {Header} from "semantic-ui-react";
 import brace from 'brace';
-import AceEditor from "react-ace/types";
+import AceEditor from "react-ace";
 
-import 'brace/mode/javascript'
+import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/theme-github";
 
 function App() {
     return (
@@ -12,7 +13,12 @@ function App() {
                 <Header size='huge'>TryCode</Header>
             </div>
             <div className="editor">
-                <TextArea rows={30}  />
+                <AceEditor
+                    mode="java"
+                    theme="github"
+                    name="UNIQUE_ID_OF_DIV"
+                    editorProps={{ $blockScrolling: true }}
+                />
             </div>
         </div>
     );
