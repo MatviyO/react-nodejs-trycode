@@ -24,8 +24,10 @@ class App extends React.Component {
        })
    }
    componentDidMount() {
-       socket.on('CHANGE_SERVER', data => {
-
+       socket.on('CHANGE_SERVER', value => {
+           this.setState({
+               value
+           })
        });
    }
 
@@ -39,12 +41,11 @@ class App extends React.Component {
                     <AceEditor
                         mode="javascript"
                         theme="github"
-                        onChange={value => {
-                            socket.emit('CHANGE', value)
-                        }}
+                        onChange={this.handleChange.bind(this)}
                         name="editor"
                         fontSize={18}
                         editorProps={{$blockScrolling: true}}
+                        value={this.state.value}
                         setOptions={{
                             enableBasicAutocompletion: true,
                             enableLiveAutocompletion: true,

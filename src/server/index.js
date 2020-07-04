@@ -7,8 +7,7 @@ app.listen(PORT, () => {
 
 io.on('connection', function (socket) {
     console.log('connected')
-    socket.on('hello', function (data) {
-        console.log(data)
-        socket.emit('privet')
+    socket.on('CHANGE_CLIENT', function (data) {
+        socket.broadcast.emit('CHANGE_SERVER', data);
     });
 });
