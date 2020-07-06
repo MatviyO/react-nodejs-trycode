@@ -1,5 +1,5 @@
 import React from 'react';
-import {Header} from "semantic-ui-react";
+import {Header, Input, Button} from "semantic-ui-react";
 import AceEditor from "react-ace";
 
 import "ace-builds/src-noconflict/mode-java";
@@ -14,7 +14,8 @@ class App extends React.Component {
     constructor(props) {
         super(props)
        this.state = {
-            value: ''
+            value: '',
+           connected: false
        }
     }
    handleChange(value) {
@@ -30,12 +31,20 @@ class App extends React.Component {
            })
        });
    }
+   connectRoom() {
+       socket.emit('CHANGE_CONNECT', this.input.value)
+       this.setState({
+           connected: true
+       })
+   }
 
     render() {
         return (
             <div>
                 <div className="header">
                     <Header size='huge'>TryCode</Header>
+                    <Input  ref={ref => this.input = ref} />
+                    <Button disabled={this.connected} onClick={this.connectRoom.bind(this)}>Connect</Button>
                 </div>
                 <div className="editor">
                     <AceEditor

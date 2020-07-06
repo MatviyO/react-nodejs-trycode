@@ -6,8 +6,11 @@ app.listen(PORT, () => {
 });
 
 io.on('connection', function (socket) {
-    console.log('connected')
-    socket.on('CHANGE_CLIENT', function (data) {
-        socket.broadcast.emit('CHANGE_SERVER', data);
+    console.log('connected');
+    socket.on('CHANGE_CONNECT', function ( data) {
+        socket.join(data)
+    });
+    socket.on('CHANGE_CLIENT', function (id, data) {
+        socket.broadcast.to(id).emit('CHANGE_SERVER', data);
     });
 });
