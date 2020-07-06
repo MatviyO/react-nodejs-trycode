@@ -1,13 +1,10 @@
 import React from 'react';
 import {Header, Input, Button} from "semantic-ui-react";
 import AceEditor from "react-ace";
-
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools"
-
 import socket from "../socket/socket";
-
 
 class App extends React.Component {
 
@@ -15,11 +12,15 @@ class App extends React.Component {
         super(props)
        this.state = {
             value: '',
-           connected: false
+           connected: false,
+           room: ''
        }
     }
    handleChange(value) {
-       socket.emit('CHANGE_CLIENT', value);
+       socket.emit('CHANGE_CLIENT', {
+           room:this.state.room,
+           code: value
+       });
        this.setState({
            value
        })
@@ -32,7 +33,7 @@ class App extends React.Component {
        });
    }
    connectRoom() {
-       socket.emit('CHANGE_CONNECT', this.input.value)
+       socket.emit('JOIN_ROOM', this.state.room);
        this.setState({
            connected: true
        })
@@ -42,8 +43,8 @@ class App extends React.Component {
         return (
             <div>
                 <div className="header">
-                    <Header size='huge'>TryCode</Header>
-                    <Input  ref={ref => this.input = ref} />
+                    <Header size='huge'>TryCode - {this.state.room}</Header>
+                    <Input  onChange={(e) => this.setState({ room: e.target.value})} />
                     <Button disabled={this.connected} onClick={this.connectRoom.bind(this)}>Connect</Button>
                 </div>
                 <div className="editor">
